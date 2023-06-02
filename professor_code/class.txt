@@ -1,0 +1,69 @@
+s - process size
+p - page number (1 bits)
+d - offset (n bits)
+
+page size = 2^n 
+    page_size = (1 << n)
+    # shift 연산에서 괄호 적극적으로 사용하기
+
+Number of pages = 
+    (s + page_size -1) / page_size 
+    # Round up(?)
+
+˅˅˅  10101, n = 2, l = 3  ˅˅˅ 
+logical --> page number
+    10101 --> 101
+    page_number = (logical >> n)
+
+logical --> offset
+    10101 --> 00001
+    offset = logical & 00011
+    offset = (logical & mask), where mask = 00011 for n = 2
+
+    mast = 0;
+    for(i = 0; i<n; i++)
+        mask |= (1<<i);
+
+
+page number --> frame number
+    f = pagetable[p]
+    e.g., pagetable[5] = 2
+
+fram number, offset --> physical
+    shift: f << n      // 01000
+    physical = (f << n) | offset
+
+
+/* Given code from professor 
+s - process size
+p - page number (l bits)
+d - offset      (n bits)
+
+page size = 2^n
+   page_size = (1 << n)
+
+# of pages = 
+   (s + page_size - 1) / page_size
+
+logical --> page number
+   10101, n = 2, l = 3
+   10101 --> 101
+   p = (logical >> n)
+
+logical --> offset
+   10101 --> 00001
+   offset = (logical & mask), where mask = 00011 for n = 2
+
+   mask = 0;
+   for(i = 0; i < n; i++)
+      mask |= (1 << i);
+
+page number --> frame number
+   f = pagetable[p]
+   e.g., pagetable[5] = 2 (010)
+
+frame number, offset --> physical
+   shift: f << n      // 01000
+   physical = (f << n) | offset
+
+*/
